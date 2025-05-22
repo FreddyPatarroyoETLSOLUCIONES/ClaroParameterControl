@@ -1,0 +1,14 @@
+﻿@{
+}
+
+<div class="layout error">
+    <p id="layout_message_error" class="text_error font_bold"></p>
+    <i class="icon_error font_bold icon icon_006" onclick="closeMessage()"></i>
+</div>
+
+<script>
+    const closeMessage = () => {
+        document.getElementById('LayoytError').style.display = 'none';
+        document.getElementById('btn_container').style.display = 'flex';
+    }
+</script>

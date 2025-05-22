@@ -1,0 +1,22 @@
+﻿@using ParameterControl.Models.CrossConnection
+@using ParameterControl.Models.Pagination
+@model PaginationResult<TableCrossConnectionViewModel>
+
+@{
+    ViewData["Title"] = "Tomas Transversales";
+    string ErrorSuccess = "Se genero un problema al obtener la informacion,Home";
+}
+
+<partial name="_Menu" model="@ViewBag.InfoUser" />
+
+@if (!ViewBag.Success)
+{
+    <partial name="_ModalError" model="ErrorSuccess" />
+}
+else
+{
+    <partial name="_TableCrossConnections" model="Model" />
+}
+
+@section Scripts {
+}

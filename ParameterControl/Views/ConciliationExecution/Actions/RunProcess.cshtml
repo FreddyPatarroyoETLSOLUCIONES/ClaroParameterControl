@@ -1,0 +1,97 @@
+﻿@using ParameterControl.Models.ConciliationExecution;
+@model ConciiliationExecution;
+
+@{
+    ViewData["Title"] = "Ejecutar Conciliacion";
+    string ErrorEntyNull = "No existe un proceso a ejecutar" + ",Home";
+    string ErrorSuccess = "Se genero un problema al obtener la informacion,Home";
+}
+
+<partial name="_Menu" model="@ViewBag.InfoUser" />
+
+@if (!ViewBag.Success)
+{
+    <partial name="_ModalError" model="ErrorSuccess" />
+}
+else
+{
+    @if (ViewBag.EntyNull)
+    {
+        <partial name="_ModalError" model="ErrorEntyNull" />
+    }
+    else
+    {
+        <div id="box_delete">
+            <div class="bg__blur"></div>
+            <form class="form__container">
+
+                <input type="hidden" asp-for="ConciliationCode" />
+
+                <div class="card__container">
+                    <div class="header_form">
+                        <img src="/images/iconApple.png" />
+                        <h1>Ejecutar Conciliación</h1>
+                        <h2>¿Está seguro de Ejecutar la conciliacion @Model.conciliation.Name?</h2>
+                    </div>
+
+                    <div id="btn_container" class="btn_container">
+                        <a href="javascript:void(0)" class="button button_primary" onclick="sendData()"><p class="text font_bold">Si</p></a>
+                        <a class="button button_secondary" asp-controller="ConciliationExecution" asp-action="ConciliationExecution"><p class="text font_bold">No</p></a>
+                    </div>
+                    <div id="loading" class="loading">
+                        <span class="loader"></span>
+                    </div>
+                    <div id="LayoytError" class="layout_content">
+                        <partial name="_MessageError" />
+                    </div>
+                    <div id="LayoytSuccess" class="layout_content">
+                        <partial name="_MessageSuccess" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        @section Scripts {
+            <partial name="_ValidationScriptsPartial.cshtml" />
+            <script>
+                const urlRunProcess = '@Url.Action("RunProcessPost")';
+                let data;
+
+                const sendData = async () => {
+                    document.getElementById('btn_container').style.display = 'none';
+                    document.getElementById('loading').style.display = 'flex';
+
+                    data = $('#ConciliationCode').val()
+
+                    console.log(data)
+
+                    const result = await fetch(urlRunProcess, {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+
+                    const json = await result.json();
+
+                    console.log(json);
+
+                    if (json.state == "Success") {
+                        document.getElementById('LayoytSuccess').style.display = 'block';
+                        document.getElementById('layout_message_success').innerHTML = json.message;
+                        document.getElementById('loading').style.display = 'none';
+                        setTimeout(() => {
+                            location.href = '/ConciliationExecution/ConciliationExecution';
+                        }, 3000)
+                    } else {
+                        document.getElementById('LayoytError').style.display = 'block';
+                        document.getElementById('layout_message_error').innerHTML = json.message;
+                        document.getElementById('loading').style.display = 'none';
+                    }
+                    
+                }
+            </script>
+        }
+    }
+}

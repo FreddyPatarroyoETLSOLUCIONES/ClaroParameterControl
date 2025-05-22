@@ -1,0 +1,161 @@
+﻿@using ParameterControl.Models.ConciliationExecution;
+@model ConciliationExecutionViewModel;
+
+@{
+    ViewData["Title"] = "Ejecucion de Conciliaciones";
+    string ErrorSuccess = "Se genero un problema al obtener la informacion,Home";
+}
+
+<partial name="_Menu" model="@ViewBag.InfoUser" />
+
+@if (!ViewBag.Success)
+{
+    <partial name="_ModalError" model="ErrorSuccess" />
+}
+else
+{
+    <div class="box_create">
+        <div class="bg__blur"></div>
+        <div asp-validation-summary="ModelOnly" class="text_error"></div>
+
+        <form class="form__container">
+            <div class="card__container">
+                <div class="header_form">
+                    <img src="/images/iconApple.png" />
+                    <h1>Ejecución de Conciliaciones</h1>
+                </div>
+
+                <div class="form_group">
+                    <div class="field">
+                        <label asp-for="ConciliationCode" class="label_form">Conciliación*</label>
+                        <div id="input_select" class="input">
+                            <input class="input_select" id="input_select_filter" name="input_select_filter" placeholder="Seleccione una opción" onclick="showOptions()" readonly />
+                            <input asp-for="ConciliationCode" class="oculte" />
+                            <i class="icon icon_select icon_153"></i>
+                        </div>
+                        <div id="options" class="options">
+                            <ul class="options_list">
+                                <li onclick="selectOption('@null', '@null')" class="option">
+                                    <p class="option_text">Seleccione una opción</p>
+                                </li>
+                                @foreach (var Option in Model.Conciliations)
+                                {
+                                    <li onclick="selectOption('@Option.Text', '@Option.Value')" class="option">
+                                        <p class="option_text">@Option.Text</p>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="select_helper" class="select_helper" onclick="showOptions()"></div>
+                    </div>
+
+                    <span id="ConciliationError" class="text_error"></span>
+                </div>
+
+                <p class="note_text"><span>Nota: </span>Los campos con (*) son obligatorios</p>
+
+                <div id="btn_container" class="btn_container_ejecution">
+                    <div class="btn_actions_successful">
+                        @if(Model.IsExecution){
+                            <a class="button button_ejecution btn_spacing" onclick="sendData('Execution')"><p class="text font_bold">Ejecutar</p></a>
+                        }
+                     @*    @if(Model.IsProgram){
+                            <a class="button button_program btn_spacing" onclick="sendData('Program')"><p class="text font_bold">Programar</p></a>
+                        } *@
+                        @* @if (Model.IsAbort)
+                        {
+                            <a class="button button_primary btn_spacing" onclick="sendData('Abort')"><p class="text font_bold">Abortar</p></a>
+                        } *@
+                    </div>
+                   <div class="btn_action_cancel">
+                        <a class="button button_secondary button_cancel" asp-controller="Home" asp-action="Index"><p class="text font_bold">Cancelar</p></a>
+                   </div>        
+                </div>
+                <div id="loading" class="loading">
+                    <span class="loader"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    @section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+
+    <script>
+        /* ----------- Select de conciliacion ----------- */
+        let viewOptions = false;
+
+        const showOptions = () => {
+
+            let widthOption = document.getElementById("input_select").clientWidth;
+            let options = document.getElementById("options");
+            options.style.width = widthOption + "px";
+
+            viewOptions = !viewOptions;
+
+            if (viewOptions) {
+                document.getElementById('options').style.display = 'block';
+                document.getElementById('select_helper').style.display = 'block';
+            } else {
+                document.getElementById('options').style.display = 'none';
+                document.getElementById('select_helper').style.display = 'none';
+            }
+        }
+
+        const selectOption = (name, value) => {
+
+            if (name == null || value == null || name == '' || value == '') {
+                console.log("vacio");
+                document.getElementById("input_select_filter").value = '';
+                document.getElementById("ConciliationCode").value = '';
+            } else {
+                console.log(value);
+                document.getElementById("input_select_filter").value = name;
+                document.getElementById("ConciliationCode").value = value;
+            }
+            showOptions();
+        }
+    </script>
+
+    <script>
+            const urlExecution = '@Url.Action("RunProcess")';
+            const urlProgram = '@Url.Action("ProgramExecution")';
+            const urlAbort = '@Url.Action("AbortConciliation")';
+            let data;
+            let isValidCode = false;
+
+            const sendData = async (validateAcction) => {
+                isValidCode = validateInputEmpty("input_select_filter", "La conciliacion es requerido", "ConciliationError");
+
+                if (isValidCode) {
+                    document.getElementById('btn_container').style.display = 'none';
+                    document.getElementById('loading').style.display = 'flex';
+
+                    data = $('#ConciliationCode').val();
+
+                    if (validateAcction == "Execution") {
+                        location.href = `${urlExecution}?code=${data}`;
+                    } else if (validateAcction == "Abort") {
+                        location.href = `${urlAbort}?code=${data}`;
+                    } else {
+                        location.href = `${urlProgram}?code=${data}`;
+                    }
+
+
+                }
+            }
+
+            const validateInputEmpty = (idInput, messaje, idError) => {
+                if ($(`#${idInput}`).val() == "" || $(`#${idInput}`).val() == null) {
+                    $(`#${idError}`).text(`${messaje}`);
+                    return false;
+                } else {
+                    $(`#${idError}`).text("");
+                    return true;
+                }
+            }
+        </script>
+    }
+
+}

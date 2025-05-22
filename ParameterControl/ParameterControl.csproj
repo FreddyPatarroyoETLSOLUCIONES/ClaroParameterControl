@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\icons\" />
+    <Folder Include="wwwroot\fonts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="NLog" Version="5.2.8" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ParameterControl.Audit.Impl\ParameterControl.Audit.Impl.csproj" />
+    <ProjectReference Include="..\ParameterControl.Audit.Interfaces\ParameterControl.Audit.Interfaces.csproj" />
+    <ProjectReference Include="..\ParameterControl.Conciliation.Entities\ParameterControl.Conciliation.Entities.csproj" />
+    <ProjectReference Include="..\ParameterControl.Conciliation.Impl\ParameterControl.Conciliation.Impl.csproj" />
+    <ProjectReference Include="..\ParameterControl.Conciliation.Interfaces\ParameterControl.Conciliation.Interfaces.csproj" />
+    <ProjectReference Include="..\ParameterControl.Parameter.Entities\ParameterControl.Parameter.Entities.csproj" />
+    <ProjectReference Include="..\ParameterControl.Parameter.Impl\ParameterControl.Parameter.Impl.csproj" />
+    <ProjectReference Include="..\ParameterControl.Parameter.Interfaces\ParameterControl.Parameter.Interfaces.csproj" />
+    <ProjectReference Include="..\ParameterControl.Policy.Entities\ParameterControl.Policy.Entities.csproj" />
+    <ProjectReference Include="..\ParameterControl.Policy.Impl\ParameterControl.Policy.Impl.csproj" />
+    <ProjectReference Include="..\ParameterControl.Policy.Interfaces\ParameterControl.Policy.Interfaces.csproj" />
+    <ProjectReference Include="..\ParameterControl.Stage.Impl\ParameterControl.Stage.Impl.csproj" />
+    <ProjectReference Include="..\ParameterControl.Stage.Interfaces\ParameterControl.Stage.Interfaces.csproj" />
+	<ProjectReference Include="..\ParameterControl.LoadControl.Entities\ParameterControl.LoadControl.Entities.csproj" />
+	<ProjectReference Include="..\ParameterControl.LoadControl.Impl\ParameterControl.LoadControl.Impl.csproj" />
+	<ProjectReference Include="..\ParameterControl.LoadControl.Interfaces\ParameterControl.LoadControl.Interfaces.csproj" />
+	<ProjectReference Include="..\ParameterControl.User.Entities\ParameterControl.User.Entities.csproj" />
+	<ProjectReference Include="..\ParameterControl.User.Impl\ParameterControl.User.Impl.csproj" />
+	<ProjectReference Include="..\ParameterControl.User.Interfaces\ParameterControl.User.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

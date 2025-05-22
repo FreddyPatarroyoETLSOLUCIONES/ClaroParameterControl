@@ -1,0 +1,22 @@
+﻿@using ParameterControl.Models.ApprovedResult
+@using ParameterControl.Models.Pagination
+@model PaginationResult<TableApprovedResultViewModel>
+
+@{
+    ViewData["Title"] = "Resultados Aprobados";
+    string ErrorSuccess = "Se genero un problema al obtener la informacion,Home";
+}
+
+<partial name="_Menu" model="@ViewBag.InfoUser" />
+
+@if (!ViewBag.Success)
+{
+    <partial name="_ModalError" model="ErrorSuccess" />
+}
+else
+{
+    <partial name="_TableApprovedResults" model="Model" />
+}
+
+@section Scripts {
+}

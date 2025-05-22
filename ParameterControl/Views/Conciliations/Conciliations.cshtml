@@ -1,0 +1,22 @@
+﻿@using ParameterControl.Models.Conciliation
+@using ParameterControl.Models.Pagination
+@model PaginationResult<TableConciliationViewModel>
+
+@{
+    ViewData["Title"] = "Conciliaciones";
+    string ErrorSuccess = "Se genero un problema al obtener la informacion,Home";
+}
+
+<partial name="_Menu" model="@ViewBag.InfoUser" />
+
+@if (!ViewBag.Success)
+{
+    <partial name="_ModalError" model="ErrorSuccess" />
+}
+else
+{
+    <partial name="_TableConciliations" model="Model" />
+}
+
+@section Scripts {
+}
